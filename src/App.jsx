@@ -7,12 +7,14 @@ import HomePage from './Pages/HomePage';
 import IndexPage from './Pages/IndexPage';
 import RankingPage from './Pages/RankingPage';
 import Header from './Components/Header';
+import ResetStyle from './Styles/ResetStyle';
 
 export default function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = useState(null);
 
   return (
-    <UserContext.Provider value={{}}>
+    <UserContext.Provider value={{user,setUser}}>
+      <ResetStyle/>
       <Header/>
       <BrowserRouter>
         <Routes>

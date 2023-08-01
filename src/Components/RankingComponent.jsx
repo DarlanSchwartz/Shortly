@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-export default function RankingComponent() {
+export default function RankingComponent({top_five = [{info:"1. Fulaninha - 32 links - 1.703.584 visualizações"},{info:"1. Fulaninha - 32 links - 1.703.584 visualizações"},{info:"1. Fulaninha - 32 links - 1.703.584 visualizações"},{info:"1. Fulaninha - 32 links - 1.703.584 visualizações"},{info:"1. Fulaninha - 32 links - 1.703.584 visualizações"}]}) {
     return (
         <SCRankingComponent>
             <Title>
@@ -10,7 +10,12 @@ export default function RankingComponent() {
                 <h1>Ranking</h1>
             </Title>
             <List>
-                <p>1. Fulaninha - 32 links - 1.703.584 visualizações</p>
+                {
+                    top_five.map((user)=>{
+                        return <p>{user.info}</p>;
+                    })
+                }
+                
             </List>
         </SCRankingComponent>
     );
@@ -29,6 +34,14 @@ const Title = styled.div`
     align-items: center;
     justify-content: center;
     gap: 10px;
+    margin-top: 71px;
+    h1{
+        color: #000;
+        font-size: 36px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
 `;
 
 const List = styled.section`
@@ -43,6 +56,11 @@ const List = styled.section`
     padding-right: 40px;
     padding-top: 20px;
     padding-bottom: 20px;
+    display: flex;
+    align-items: left;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 10px;
 
     p{
         color: #000;
