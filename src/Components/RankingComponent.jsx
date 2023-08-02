@@ -11,11 +11,10 @@ export default function RankingComponent({top_five = [{info:"1. Fulaninha - 32 l
             </Title>
             <List>
                 {
-                    top_five.map((user)=>{
-                        return <p>{user.info}</p>;
+                    top_five.map((user,index)=>{
+                        return <p key={index}>{user.info}</p>;
                     })
                 }
-                
             </List>
         </SCRankingComponent>
     );

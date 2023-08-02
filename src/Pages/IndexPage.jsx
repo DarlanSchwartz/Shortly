@@ -1,9 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Logo from '../Components/Logo';
 import RankingComponent from '../Components/RankingComponent';
 import { styled } from 'styled-components';
+import axios from 'axios';
 
 export default function IndexPage() {
+
+  useEffect(()=>{
+    axios.get(`${import.meta.env.VITE_API_URL}/ranking`)
+    .then(res =>{
+      console.log(res);
+    })
+    .catch(error =>{
+
+    });
+
+  },[])
 
   return (
     <SCIndexPage>

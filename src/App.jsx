@@ -14,9 +14,10 @@ export default function App() {
 
   return (
     <UserContext.Provider value={{user,setUser}}>
+      
+      <BrowserRouter>
       <ResetStyle/>
       <Header/>
-      <BrowserRouter>
         <Routes>
           <Route path='/' element={<IndexPage/>}/>
           <Route path='/home' element={<HomePage/>}/>

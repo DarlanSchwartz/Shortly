@@ -1,21 +1,47 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import Logo from '../Components/Logo';
 import { greenButtonColor } from '../Colors/colors';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUpPage() {
 
+  const name = useRef();
+  const email = useRef();
+  const password = useRef();
+  const password2 = useRef();
+  const navigate = useNavigate();
+
+  function register(e) {
+    e.preventDefault();
+
+    const user = {
+      name: name.current.value,
+      email: email.current.value,
+      password: password.current.value,
+      confirmPassword: password2.current.value,
+    };
+
+    axios.post(`${import.meta.env.VITE_API_URL}/signup`, user)
+      .then(res => {
+        alert("Cadastrado com sucesso");
+        navigate('/signin');
+      }).catch(error => {
+        alert(error.response.data);
+      });
+  }
+
   return (
     <SCSignUpPage>
-       <Logo/>
-       <form action="">
-        <input type="text" placeholder='Nome'/>
-        <input type="email" placeholder='E-mail'/>
-        <input type="password" placeholder='Senha'/>
-        <input type="password" placeholder='Confirmar Senha'/>
-
+      <Logo />
+      <form onSubmit={register}>
+        <input required ref={name} type="text" placeholder='Nome' />
+        <input required ref={email} type="email" placeholder='E-mail' />
+        <input required ref={password} type="password" placeholder='Senha' />
+        <input required ref={password2} type="password" placeholder='Confirmar Senha' />
         <button>Criar Conta</button>
-       </form>
+      </form>
     </SCSignUpPage>
   )
 }
