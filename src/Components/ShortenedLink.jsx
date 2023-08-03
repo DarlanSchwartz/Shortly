@@ -50,7 +50,7 @@ export default function ShortenedLink({ url }) {
     function open() {
         axios.get(`${import.meta.env.VITE_API_URL}/urls/open/${url.shortUrl}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
             .then(res => {
-                console.log(res);
+                window.location.href = res.data.redirectLink;
             })
             .catch(error => {
                 console.log(error);
