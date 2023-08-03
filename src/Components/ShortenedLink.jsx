@@ -7,10 +7,12 @@ import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { MdGroups2 } from "react-icons/md";
+import { useLocation } from "react-router-dom";
 
 export default function ShortenedLink({ url }) {
     const { updateUser } = useContext(UserContext);
     const size = useWindowSize();
+    const location = useLocation();
 
     function remove() {
         Swal.fire({
@@ -50,7 +52,10 @@ export default function ShortenedLink({ url }) {
     function open() {
         axios.get(`${import.meta.env.VITE_API_URL}/urls/open/${url.shortUrl}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
             .then(res => {
-                window.location.href = res.data.redirectLink;
+                if(window.location.href !== res.data.redirectLink)
+                {
+                    window.location.href = res.data.redirectLink;
+                }
             })
             .catch(error => {
                 console.log(error);
@@ -60,7 +65,7 @@ export default function ShortenedLink({ url }) {
     return (
         <SCShortenedLink>
             <div  onClick={open} className="content">
-                <a href={`${import.meta.env.VITE_API_URL}/urls/open/${url.shortUrl}`}>{url.url}</a>
+                <a>{url.url}</a>
                 <a>{url.shortUrl}</a>
                 <a>{size.width >= 720 ? "Quantidade de visitantes: " : size.width > 580 && size.width < 720 ? "Visitantes" : <MdGroups2 />} {url.visitCount}</a>
             </div>
