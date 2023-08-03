@@ -1,16 +1,16 @@
 import { styled } from "styled-components";
 import { greenShortenColor } from "../Colors/colors";
 
-export default function ShortenedLink() {
+export default function ShortenedLink({url}) {
     function remove() {
 
     }
     return (
         <SCShortenedLink>
             <div className="content">
-                <a href="globo.com">globo.com</a>
-                <a>bt24kS</a>
-                <a>Quantidade de visitantes: 03</a>
+                <a href="globo.com">{url.url}</a>
+                <a>{url.shorturl}</a>
+                <a>Quantidade de visitantes: {url.visitcount}</a>
             </div>
             <button onClick={remove}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26" fill="none">
@@ -56,6 +56,16 @@ const SCShortenedLink = styled.section`
         padding: 21px;
         a{
             color: white;
+            width: 100%;
+            &:nth-child(2)
+            {
+                width: 90px;
+                min-width: 90px;
+            }
+            &:last-child
+            {
+                text-align: right;
+            }
         }
     }
 `;

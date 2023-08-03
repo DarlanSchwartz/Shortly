@@ -22,18 +22,18 @@ export default function Header() {
                 <Actions>
                     {
                         user ?
-                        
+
                             <>
-                                <CustomLink active={location.pathname == '/home' ? 'true' : 'false'} href="/home">Home</CustomLink>
-                                <CustomLink active={location.pathname == '/ranking' ? 'true' : 'false'} href="/ranking">Ranking</CustomLink>
-                                <CustomLink active='false' onClick={logout}>Sair</CustomLink>
+                                <CustomLink $active={location.pathname == '/home' ? 'true' : 'false'} href="/home">Home</CustomLink>
+                                <CustomLink $active={location.pathname == '/ranking' ? 'true' : 'false'} href="/ranking">Ranking</CustomLink>
+                                <CustomLink $active='false' onClick={logout}>Sair</CustomLink>
                             </>
 
                             :
 
                             <>
-                                <CustomLink active={location.pathname == '/signin' ? 'true' : 'false'} href="/signin">Entrar</CustomLink>
-                                <CustomLink active={location.pathname == '/signup' ? 'true' : 'false'} href="/signup">Cadastrar-se</CustomLink>
+                                <CustomLink $active={location.pathname == '/signin' ? 'true' : 'false'} href="/signin">Entrar</CustomLink>
+                                <CustomLink $active={location.pathname == '/signup' ? 'true' : 'false'} href="/signup">Cadastrar-se</CustomLink>
                             </>
                     }
                 </Actions>
@@ -50,10 +50,10 @@ height: 20px;
 `;
 
 const CustomLink = styled.a`
-    color: ${(props) => props.active == 'true' ? greenButtonColor : headerLinksColor};
+    color: ${(props) => props.$active == 'true' ? greenButtonColor : headerLinksColor};
     font-size: 14px;
     font-style: normal;
-    font-weight: ${(props) => props.active == 'true' ? 'bold' : 400};;
+    font-weight: ${(props) => props.$active == 'true' ? 'bold' : 400};;
     line-height: normal;
     cursor: pointer;
 `;

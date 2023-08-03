@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import Logo from '../Components/Logo';
 import { greenButtonColor } from '../Colors/colors';
@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export default function HomePage() {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const url = useRef();
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_URL}/users/me`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
@@ -17,31 +18,35 @@ export default function HomePage() {
         console.log(res.data);
        setUser(res.data);
       })
-      .catch(error => {
-
-        return navigate('/');
-        //console.log(error.response.data);
-      });
+      .catch(error =>  navigate('/')); //console.log(error.response.data)
   }, []);
 
   function shortenUrl(e)
   {
     e.preventDefault();
+
+    axios.post(`${import.meta.env.VITE_API_URL}/urls/shorten`,{url:url.current.value},{headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}})
+    .then(res =>{
+      console.log(res);
+    })
+    .catch(error =>{
+      console.log(error);
+    });
   }
 
   return (
     <SCHomePage>
       <Content>
         <Logo />
-        <form action="">
-          <input type="text" id='url-to-short' name='url-to-short' placeholder='Links que cabem no bolso' />
+        <form onSubmit={shortenUrl}>
+          <input required ref={url} type="text" id='url-to-short' name='url-to-short' placeholder='Links que cabem no bolso' />
           <button>Encurtar link</button>
         </form>
         <div className='links-list'>
           {
-           user.shortenedUrls.map(url =>{
+            user && user.shortenedUrls.map((url,index) =>{
             return (
-              <ShortenedLink />
+              <ShortenedLink key={index} url={url}/>
             );
            })
           }
