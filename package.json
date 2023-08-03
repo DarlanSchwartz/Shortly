@@ -14,7 +14,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.2",
-    "styled-components": "^6.0.5"
+    "styled-components": "^6.0.5",
+    "sweetalert2": "^11.7.20",
+    "toastify": "^2.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

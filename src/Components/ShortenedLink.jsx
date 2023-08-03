@@ -1,14 +1,37 @@
 import { styled } from "styled-components";
 import { greenShortenColor } from "../Colors/colors";
+import axios from "axios";
+import UserContext from "../Contexts/UserContext";
+import { useContext } from "react";
 
 export default function ShortenedLink({url}) {
-    function remove() {
+    const { updateUser } = useContext(UserContext);
 
+    function remove() {
+        axios.delete(`${import.meta.env.VITE_API_URL}/urls/${url.id}`,{headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}})
+        .then(res =>{
+          console.log(res);
+          updateUser();
+        })
+        .catch(error =>{
+          console.log(error);
+        });
     }
+
+    function open() {
+        axios.get(`${import.meta.env.VITE_API_URL}/urls/open/${url.shorturl}`,{headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}})
+        .then(res =>{
+          
+        })
+        .catch(error =>{
+          console.log(error);
+        });
+    }
+
     return (
-        <SCShortenedLink>
+        <SCShortenedLink onClick={open}>
             <div className="content">
-                <a href="globo.com">{url.url}</a>
+                <a href={`${import.meta.env.VITE_API_URL}/urls/open/${url.shorturl}`}>{url.url}</a>
                 <a>{url.shorturl}</a>
                 <a>Quantidade de visitantes: {url.visitcount}</a>
             </div>
@@ -54,6 +77,10 @@ const SCShortenedLink = styled.section`
         align-items: center;
         justify-content: space-between;
         padding: 21px;
+        cursor: pointer;
+        &:hover{
+            opacity: 70%;
+        }
         a{
             color: white;
             width: 100%;

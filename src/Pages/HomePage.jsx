@@ -8,17 +8,12 @@ import UserContext from '../Contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function HomePage() {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser,updateUser } = useContext(UserContext);
   const navigate = useNavigate();
   const url = useRef();
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_URL}/users/me`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
-      .then(res => {
-        console.log(res.data);
-       setUser(res.data);
-      })
-      .catch(error =>  navigate('/')); //console.log(error.response.data)
+    updateUser();
   }, []);
 
   function shortenUrl(e)
@@ -27,7 +22,8 @@ export default function HomePage() {
 
     axios.post(`${import.meta.env.VITE_API_URL}/urls/shorten`,{url:url.current.value},{headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}})
     .then(res =>{
-      console.log(res);
+      updateUser();
+      //console.log(res);
     })
     .catch(error =>{
       console.log(error);

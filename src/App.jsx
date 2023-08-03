@@ -8,12 +8,22 @@ import IndexPage from './Pages/IndexPage';
 import RankingPage from './Pages/RankingPage';
 import Header from './Components/Header';
 import ResetStyle from './Styles/ResetStyle';
+import axios from 'axios';
 
 export default function App() {
   const [user, setUser] = useState(null);
 
+  function updateUser()
+  {
+    axios.get(`${import.meta.env.VITE_API_URL}/users/me`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+    .then(res => {
+     setUser(res.data);
+    })
+    .catch(error =>  navigate('/')); //console.log(error.response.data)
+  }
+
   return (
-    <UserContext.Provider value={{user,setUser}}>
+    <UserContext.Provider value={{user,setUser,updateUser}}>
       
       <BrowserRouter>
       <ResetStyle/>
