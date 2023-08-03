@@ -1,7 +1,8 @@
 import { createGlobalStyle } from "styled-components";
+import { greenButtonColor } from "../Colors/colors";
 
 const ResetStyle = createGlobalStyle`
- html, body, div, span, applet, object, iframe,
+ html, body, span, applet, object, iframe,
 	h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 	a, abbr, acronym, address, big, cite, code,
 	del, dfn, em, img, ins, kbd, q, s, samp,
@@ -58,6 +59,7 @@ body,html{
 
 #root{
     min-height: 100%;
+	--toastify-color-success: #5D9040 !important;
 }
 
 button{
@@ -74,6 +76,8 @@ input{
 a{
     text-decoration: none;
 }
+
+
 `;
 
 export default ResetStyle;

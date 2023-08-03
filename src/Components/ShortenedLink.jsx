@@ -1,39 +1,68 @@
 import { styled } from "styled-components";
-import { greenShortenColor } from "../Colors/colors";
+import { greenButtonColor, greenShortenColor } from "../Colors/colors";
 import axios from "axios";
 import UserContext from "../Contexts/UserContext";
 import { useContext } from "react";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import { useWindowSize } from "@uidotdev/usehooks";
+import { MdGroups2 } from "react-icons/md";
 
-export default function ShortenedLink({url}) {
+export default function ShortenedLink({ url }) {
     const { updateUser } = useContext(UserContext);
+    const size = useWindowSize();
 
     function remove() {
-        axios.delete(`${import.meta.env.VITE_API_URL}/urls/${url.id}`,{headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}})
-        .then(res =>{
-          console.log(res);
-          updateUser();
+        Swal.fire({
+            title: 'Remover?',
+            text: "Tem certeza que remover este link?",
+            icon: 'warning',
+            showCancelButton: true,
+            width: 300,
+            confirmButtonColor: 'lightgray',
+            cancelButtonColor: `${greenButtonColor}`,
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`${import.meta.env.VITE_API_URL}/urls/${url.id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+                    .then(res => {
+                        console.log(res);
+                        toast.success('URL removida com sucesso!', {
+                            position: "bottom-left",
+                            autoClose: 2000,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                        updateUser();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
         })
-        .catch(error =>{
-          console.log(error);
-        });
     }
 
     function open() {
-        axios.get(`${import.meta.env.VITE_API_URL}/urls/open/${url.shorturl}`,{headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}})
-        .then(res =>{
-          
-        })
-        .catch(error =>{
-          console.log(error);
-        });
+        axios.get(`${import.meta.env.VITE_API_URL}/urls/open/${url.shortUrl}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+            .then(res => {
+                console.log(res);
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     return (
         <SCShortenedLink onClick={open}>
             <div className="content">
-                <a href={`${import.meta.env.VITE_API_URL}/urls/open/${url.shorturl}`}>{url.url}</a>
-                <a>{url.shorturl}</a>
-                <a>Quantidade de visitantes: {url.visitcount}</a>
+                <a href={`${import.meta.env.VITE_API_URL}/urls/open/${url.shortUrl}`}>{url.url}</a>
+                <a>{url.shortUrl}</a>
+                <a>{size.width >= 720 ? "Quantidade de visitantes: " : size.width > 580 && size.width < 720 ? "Visitantes" : <MdGroups2 />} {url.visitCount}</a>
             </div>
             <button onClick={remove}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26" fill="none">
@@ -51,6 +80,7 @@ const SCShortenedLink = styled.section`
     display: flex;
     align-items: center;
     justify-content: center;
+   
 
     button{
         width: 130px;
@@ -63,9 +93,18 @@ const SCShortenedLink = styled.section`
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @media (max-width: 1080px) {
+            width: 50px;
+        }
     }
 
     .content{
+        @media (max-width: 1080px) {
+            max-width:calc(100% - 80px);
+            overflow: hidden;
+        }
+
         width: 100%;
         color: white;
         border-radius: 12px 0px 0px 12px;
@@ -88,10 +127,15 @@ const SCShortenedLink = styled.section`
             {
                 width: 90px;
                 min-width: 90px;
+                margin-left: 10px;
             }
             &:last-child
             {
                 text-align: right;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
             }
         }
     }

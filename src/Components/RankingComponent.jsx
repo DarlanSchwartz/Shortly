@@ -1,6 +1,22 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 
-export default function RankingComponent({top_five = [{info:"1. Fulaninha - 32 links - 1.703.584 visualizações"},{info:"1. Fulaninha - 32 links - 1.703.584 visualizações"},{info:"1. Fulaninha - 32 links - 1.703.584 visualizações"},{info:"1. Fulaninha - 32 links - 1.703.584 visualizações"},{info:"1. Fulaninha - 32 links - 1.703.584 visualizações"}]}) {
+export default function RankingComponent() {
+    
+    const [ranking, setRanking] = useState([]);
+
+    useEffect(()=>{
+        axios.get(`${import.meta.env.VITE_API_URL}/ranking`,{headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}})
+        .then(res =>{
+            console.log(res.data);
+            setRanking(res.data);
+        })
+        .catch(error =>{
+          console.log(error);
+        });
+    },[])
+    
     return (
         <SCRankingComponent>
             <Title>
@@ -11,8 +27,8 @@ export default function RankingComponent({top_five = [{info:"1. Fulaninha - 32 l
             </Title>
             <List>
                 {
-                    top_five.map((user,index)=>{
-                        return <p key={index}>{user.info}</p>;
+                    ranking.map((user,index)=>{
+                        return <p key={user.id}>{`${index + 1}. ${user.name} - ${user.linksCount} links - ${user.visitCount} visualizações`}</p>;
                     })
                 }
             </List>

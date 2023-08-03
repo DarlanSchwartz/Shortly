@@ -3,22 +3,40 @@ import { greenButtonColor, headerLinksColor } from "../Colors/colors";
 import UserContext from "../Contexts/UserContext";
 import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useWindowSize } from "@uidotdev/usehooks";
 
 export default function Header() {
     const { setUser, user } = useContext(UserContext);
     const navigate = useNavigate();
     const location = useLocation();
+    const size = useWindowSize();
 
     function logout() {
-        localStorage.removeItem('token');
-        setUser(null);
-        navigate('/');
+        Swal.fire({
+            title: 'Sair?',
+            text: "Tem certeza que deseja sair?",
+            icon: 'question',
+            showCancelButton: true,
+            width:300,
+            confirmButtonColor: 'lightgray',
+            cancelButtonColor: `${greenButtonColor}`,
+            confirmButtonText: 'Sim',
+            cancelButtonText:'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem('token');
+                setUser(null);
+                navigate('/');
+            }
+          })
+       
     }
 
     return (
         <SCHeader>
             <Content>
-                {user ? <h1>Seja bem-vindo(a),{user.name}</h1> : <EmptyDiv />}
+                {user ? <h1>{size.width >= 450 ? "Seja bem-vindo(a), " : "Olá, "}{user.name}</h1> : <EmptyDiv />}
                 <Actions>
                     {
                         user ?
@@ -43,10 +61,8 @@ export default function Header() {
 }
 
 const EmptyDiv = styled.div`
-
-width: 30px;
-height: 20px;
-
+    width: 30px;
+    height: 20px;
 `;
 
 const CustomLink = styled.a`
@@ -64,6 +80,9 @@ const Content = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    @media (max-width: 1080px) {
+      max-width:calc(100% - 40px);
+    }
 `;
 
 const SCHeader = styled.header`

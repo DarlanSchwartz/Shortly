@@ -5,11 +5,10 @@ import { greenButtonColor } from '../Colors/colors';
 import ShortenedLink from '../Components/ShortenedLink';
 import axios from 'axios';
 import UserContext from '../Contexts/UserContext';
-import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function HomePage() {
   const { user, setUser,updateUser } = useContext(UserContext);
-  const navigate = useNavigate();
   const url = useRef();
 
   useEffect(() => {
@@ -22,6 +21,16 @@ export default function HomePage() {
 
     axios.post(`${import.meta.env.VITE_API_URL}/urls/shorten`,{url:url.current.value},{headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}})
     .then(res =>{
+      toast.success('URL criada com sucesso!', {
+        position: "bottom-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+    });
       updateUser();
       //console.log(res);
     })
@@ -60,15 +69,16 @@ const Content = styled.div`
    justify-content: center;
    max-width: 1020px;
    width: 100%;
+   margin-bottom: 100px;
 
    .links-list{
     margin-top: 60px;
     display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   width: 100%;
-   gap: 42px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 42px;
    }
 `;
 
@@ -85,6 +95,11 @@ const SCHomePage = styled.main`
     flex-direction: row;
     gap: 69px;
     width: 100%;
+
+    @media (max-width: 1080px) {
+      max-width:calc(100% - 40px);
+      gap: 20px;
+    }
 
     input{
       height: 60px;
