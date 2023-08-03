@@ -58,8 +58,8 @@ export default function ShortenedLink({ url }) {
     }
 
     return (
-        <SCShortenedLink onClick={open}>
-            <div className="content">
+        <SCShortenedLink>
+            <div  onClick={open} className="content">
                 <a href={`${import.meta.env.VITE_API_URL}/urls/open/${url.shortUrl}`}>{url.url}</a>
                 <a>{url.shortUrl}</a>
                 <a>{size.width >= 720 ? "Quantidade de visitantes: " : size.width > 580 && size.width < 720 ? "Visitantes" : <MdGroups2 />} {url.visitCount}</a>
