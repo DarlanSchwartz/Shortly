@@ -39,5 +39,10 @@ const SCIndexPage = styled.main`
       font-weight: 700;
       line-height: normal;
       margin-top: 82px;
+
+      @media (max-width: 750px) {
+          font-size: 18px;
+          text-align: center;
+      }
   }
 `;

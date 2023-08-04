@@ -78,6 +78,11 @@ const SCSignUpPage = styled.main`
       border: 0;
       width: 182px;
       height: 60px;
+      &:hover{
+        border: 1px solid ${greenButtonColor};
+        background-color: white;
+        color: ${greenButtonColor};
+      }
     }
   }
 `;

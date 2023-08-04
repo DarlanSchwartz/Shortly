@@ -79,6 +79,9 @@ const Content = styled.div`
     justify-content: center;
     width: 100%;
     gap: 42px;
+    @media (max-width: 600px) {
+          gap: 10px;
+      }
    }
 `;
 
@@ -101,11 +104,21 @@ const SCHomePage = styled.main`
       gap: 20px;
     }
 
+    @media (max-width: 600px) {
+      max-width:calc(100%);
+      gap:0;
+    }
+
     input{
       height: 60px;
       max-width:769px;
       width: 100%;
       padding-left: 10px;
+
+      @media (max-width: 600px) {
+        border-radius: 0;
+        border-right: 0;
+      }
     }
 
     button{
@@ -117,10 +130,17 @@ const SCHomePage = styled.main`
       height: 60px;
       color: white;
 
+      @media (max-width: 600px) {
+        border-radius: 0;
+      }
+
       &:hover{
         border: 1px solid ${greenButtonColor};
         background-color: white;
         color: ${greenButtonColor};
+        @media (max-width: 600px) {
+          border-right: 0;
+        }
       }
     }
   }

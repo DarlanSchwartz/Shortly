@@ -61,13 +61,13 @@ export default function ShortenedLink({ url }) {
                 console.log(error);
             });
     }
-
+//url.url.substring(0,20) + (url.url.length >= 20 ? '...' : '')
     return (
         <SCShortenedLink>
             <div  onClick={open} className="content">
                 <a>{url.url}</a>
                 <a>{url.shortUrl}</a>
-                <a>{size.width >= 720 ? "Quantidade de visitantes: " : size.width > 580 && size.width < 720 ? "Visitantes" : <MdGroups2 />} {url.visitCount}</a>
+                <a>{size.width >= 720 ? "Quantidade de visitantes: " : size.width > 600 && size.width < 720 ? "Visitantes" : <MdGroups2 />} {url.visitCount}</a>
             </div>
             <button onClick={remove}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26" fill="none">
@@ -102,12 +102,24 @@ const SCShortenedLink = styled.section`
         @media (max-width: 1080px) {
             width: 50px;
         }
+
+        @media (max-width: 600px) {
+            border-radius: 0;
+            border-right: 0;
+        }
     }
 
     .content{
         @media (max-width: 1080px) {
             max-width:calc(100% - 80px);
             overflow: hidden;
+        }
+
+        @media (max-width: 600px) {
+            border-radius: 0;
+            max-width:100%;
+            padding-left: 10px;
+            padding-right: 0px;
         }
 
         width: 100%;
@@ -128,9 +140,15 @@ const SCShortenedLink = styled.section`
         a{
             color: white;
             width: 100%;
+            &:first-child
+            {
+                min-width: 90px;
+                overflow: hidden;
+                white-space: nowrap;
+            }
             &:nth-child(2)
             {
-                width: 90px;
+                width: 70px;
                 min-width: 90px;
                 margin-left: 10px;
             }
@@ -141,6 +159,9 @@ const SCShortenedLink = styled.section`
                 align-items: center;
                 justify-content: center;
                 gap: 5px;
+                @media (max-width: 600px) {
+                   max-width: 60px;
+                }
             }
         }
     }
