@@ -50,22 +50,27 @@ export default function ShortenedLink({ url }) {
     }
 
     function open() {
-        axios.get(`${import.meta.env.VITE_API_URL}/urls/open/${url.shortUrl}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
-            .then(res => {
-                if(window.location.href !== res.data.redirectLink)
-                {
-                    window.location.href = res.data.redirectLink;
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        // axios.get(`${import.meta.env.VITE_API_URL}/urls/open/${url.shortUrl}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+        //     .then(res => {
+        //          if(window.location.href !== res.data.redirectLink)
+        //          {
+        //              window.location.href = res.data.redirectLink;
+        //          }
+        //         console.log(res);
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     });
+        if(window.location.href !== url.url)
+        {
+            window.open(url.url, '_blank');
+        }
     }
 //url.url.substring(0,20) + (url.url.length >= 20 ? '...' : '')
     return (
         <SCShortenedLink>
             <div  onClick={open} className="content">
-                <a>{url.url}</a>
+                <a title={url.url}>{url.url}</a>
                 <a>{url.shortUrl}</a>
                 <a>{size.width >= 720 ? "Quantidade de visitantes: " : size.width > 600 && size.width < 720 ? "Visitantes" : <MdGroups2 />} {url.visitCount}</a>
             </div>
