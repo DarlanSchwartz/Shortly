@@ -50,21 +50,7 @@ export default function ShortenedLink({ url }) {
     }
 
     function open() {
-        // axios.get(`${import.meta.env.VITE_API_URL}/urls/open/${url.shortUrl}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
-        //     .then(res => {
-        //          if(window.location.href !== res.data.redirectLink)
-        //          {
-        //              window.location.href = res.data.redirectLink;
-        //          }
-        //         console.log(res);
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     });
-        if(window.location.href !== url.url)
-        {
-            window.open(url.url, '_blank');
-        }
+        if(window.location.href !== url.shortUrl) window.open(`${import.meta.env.VITE_API_URL}/urls/open/${url.shortUrl}`, '_blank');
     }
 //url.url.substring(0,20) + (url.url.length >= 20 ? '...' : '')
     return (

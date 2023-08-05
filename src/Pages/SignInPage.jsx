@@ -22,6 +22,7 @@ export default function SignInPage() {
 
     axios.post(`${import.meta.env.VITE_API_URL}/signin`, user)
       .then(res => {
+        //console.log(res.data);
         localStorage.setItem('token',res.data.token);
         navigate('/home');
       }).catch(error => {

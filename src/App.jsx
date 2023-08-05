@@ -18,10 +18,10 @@ export default function App() {
   function updateUser() {
     axios.get(`${import.meta.env.VITE_API_URL}/users/me`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
       .then(res => {
-        //console.log(res.data);
+        console.log(res.data);
         setUser(res.data);
       })
-      .catch(error => navigate('/')); //console.log(error.response.data)
+      .catch(error => console.log(error)); //console.log(error.response.data)
   }
 
   return (

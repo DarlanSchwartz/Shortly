@@ -4,6 +4,7 @@ import Logo from '../Components/Logo';
 import { greenButtonColor } from '../Colors/colors';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function SignUpPage() {
 
@@ -25,7 +26,16 @@ export default function SignUpPage() {
 
     axios.post(`${import.meta.env.VITE_API_URL}/signup`, user)
       .then(res => {
-        alert("Cadastrado com sucesso");
+        toast.success("Cadastrado com sucesso", {
+          position: "bottom-left",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+      });
         navigate('/signin');
       }).catch(error => {
         alert(error.response.data);
