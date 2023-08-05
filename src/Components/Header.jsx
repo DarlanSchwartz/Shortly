@@ -72,6 +72,11 @@ const CustomLink = styled.a`
     font-weight: ${(props) => props.$active == 'true' ? 'bold' : 400};;
     line-height: normal;
     cursor: pointer;
+
+    &:hover{
+        opacity: 90%;
+        color: green;
+    }
 `;
 
 const Content = styled.div`
