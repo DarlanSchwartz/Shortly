@@ -5,6 +5,7 @@ import { greenButtonColor } from '../Colors/colors';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import UserContext from '../Contexts/UserContext';
+import Swal from 'sweetalert2';
 
 export default function SignInPage() {
 
@@ -26,7 +27,28 @@ export default function SignInPage() {
         localStorage.setItem('token',res.data.token);
         navigate('/home');
       }).catch(error => {
-        console.log(error);
+        if(error.response.status == 401)
+        {
+          Swal.fire({
+            title: 'Erro',
+            text: "Senha incorreta",
+            icon: 'error',
+            width: 300,
+            confirmButtonColor: greenButtonColor,
+            confirmButtonText: 'Ok'
+          });
+        }
+        else
+        {
+          Swal.fire({
+            title: 'Erro',
+            text: `Erro ${error.response.status} ${error.response.statusText}`,
+            icon: 'error',
+            width: 300,
+            confirmButtonColor: greenButtonColor,
+            confirmButtonText: 'Ok'
+          });
+        }
       });
   }
 

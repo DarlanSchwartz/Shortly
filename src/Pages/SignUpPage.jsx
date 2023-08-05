@@ -5,6 +5,7 @@ import { greenButtonColor } from '../Colors/colors';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 export default function SignUpPage() {
 
@@ -16,6 +17,18 @@ export default function SignUpPage() {
 
   function register(e) {
     e.preventDefault();
+
+    if (password.current.value !== password2.current.value) {
+      Swal.fire({
+        title: 'Erro',
+        text: "As senhas precisam ser iguais!",
+        icon: 'error',
+        width: 300,
+        confirmButtonColor: greenButtonColor,
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
 
     const user = {
       name: name.current.value,
@@ -35,7 +48,7 @@ export default function SignUpPage() {
           draggable: true,
           progress: undefined,
           theme: "colored",
-      });
+        });
         navigate('/signin');
       }).catch(error => {
         alert(error.response.data);
