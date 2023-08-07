@@ -4,12 +4,16 @@ import RankingComponent from '../Components/RankingComponent';
 import { styled } from 'styled-components';
 import UserContext from '../Contexts/UserContext';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function RankingPage() {
 
   const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if(!localStorage.getItem('token')) return navigate('/');
+    
     axios.get(`${import.meta.env.VITE_API_URL}/users/me`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
       .then(res => {
        // console.log(res.data);

@@ -6,12 +6,15 @@ import ShortenedLink from '../Components/ShortenedLink';
 import axios from 'axios';
 import UserContext from '../Contexts/UserContext';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export default function HomePage() {
   const { user, setUser,updateUser } = useContext(UserContext);
+  const navigate = useNavigate();
   const url = useRef();
 
   useEffect(() => {
+    if(!localStorage.getItem('token')) return navigate('/');
     updateUser();
   }, []);
 
